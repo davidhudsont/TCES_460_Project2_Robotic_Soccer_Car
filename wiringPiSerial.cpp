@@ -14,12 +14,12 @@ int main() {
 		fprintf(stderr, "Unable to open serial device : %s\n", strerror (errno));
 		return 1;
 	}
-	if (wiringPi() == -1) {
+	if (wiringPiSetup () == -1) {
 		fprintf(stdout, "Unable to start wiringPi: %s\n", strerror (errno));
 		return 1;
 	}
 	while (true) {
-		if (serialDataAvail (fd) {
+		if (serialDataAvail (fd)) {
 			printf("Data recieved is : %s\n", serialGetchar(fd));
 			delay(1000);
 		}
