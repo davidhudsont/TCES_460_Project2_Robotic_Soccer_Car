@@ -5,4 +5,4 @@ schedule: simple_continous_client.cpp simple_continous_server.cpp wiringPiSerial
 #	gcc -o continous_server continous_server.c
 	g++ -o client simple_continous_client.cpp
 	g++ -o server simple_continous_server.cpp
-	g++ -o serial wiringPiSerial.cpp
+	g++ -o serial wiringPiSerial.cpp -lwiringPi
