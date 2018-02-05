@@ -116,7 +116,7 @@ void server_setup() {
 
 int main(int argc, char *argv[]) {
 	server_setup();
-	int fd = serialOpen ("/dev/ttyACM1", 115200) ;
+	int fd = serialOpen ("/dev/ttyUSB1", 115200) ;
     if (fd < 0){
         printf("error\n");
     }
