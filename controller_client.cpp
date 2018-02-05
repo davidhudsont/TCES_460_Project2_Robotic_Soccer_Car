@@ -12,7 +12,7 @@
 
 using namespace std;
 
-const int  size = 2;
+const int  size = 256;
 
 int joy[2] = {0,1};
 
