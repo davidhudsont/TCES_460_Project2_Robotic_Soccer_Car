@@ -114,33 +114,25 @@ void server_setup() {
 	
 }
 
-int main(int argc, char *argv[])
-
-{
-
+int main(int argc, char *argv[]) {
 	server_setup();
-     while (1) {
-
-		 bzero(buffer,256);
-
-		n = read(newsockfd,buffer,255);
-		//decode();
-		if (n < 0) error("ERROR reading from socket");
-
-		 printf("Here is the message: %s\n",buffer);
-
-		 n = write(newsockfd,"I got your message",18);
-
-		 if (n < 0) error("ERROR writing to socket");
-
-		 sleep(1);
-
-     }
-
-     close(newsockfd);
-
-     close(sockfd);
-
-     return 0; 
+	int fd = serialOpen ("/dev/ttyACM1", 115200) ;
+    if (fd < 0){
+        printf("error\n");
+    }
+		while (1) {
+			bzero(buffer,256);
+			n = read(newsockfd,buffer,255);
+			//decode();
+			if (n < 0) error("ERROR reading from socket");
+			printf("Here is the message: %s\n",buffer);
+			serialPuts(fd,buffer);
+			n = write(newsockfd,"I got your message",18);
+			if (n < 0) error("ERROR writing to socket");
+			sleep(1);
+		}
+	close(newsockfd);
+	close(sockfd);
+	return 0; 
 
 }
