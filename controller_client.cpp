@@ -79,7 +79,7 @@ void client_setup() {
 
 
 int main(int argc, char *argv[]) {
-	int fd = serialOpen ("/dev/ttyACM0", 115200) ;
+	int fd = serialOpen ("/dev/ttyACM1", 115200) ;
     if (fd < 0){
         printf("error\n");
     }
