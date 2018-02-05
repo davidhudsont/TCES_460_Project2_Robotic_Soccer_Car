@@ -27,7 +27,7 @@ void serialPutsString(int fd, char * buffer) {
 
 void serialPutCharString(int fd, int size, char * buffer) {
 	for (int i =0; i<size; i++) {
-		serialPutchar(buffer[i]);
+		serialPutchar(fd,buffer[i]);
 	}
 }
 
