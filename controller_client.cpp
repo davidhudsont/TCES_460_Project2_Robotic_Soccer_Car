@@ -58,8 +58,8 @@ void client_setup() {
 		error("ERROR opening socket\n");
 	}
 	//server = gethostbyname("car_client");
-	server = gethostbyname("localhost");
-	
+	//server = gethostbyname("localhost");
+	server = gethostbyname("10.16.1.10");
 	bzero((char *) &serv_addr, sizeof(serv_addr));
 
     serv_addr.sin_family = AF_INET;
