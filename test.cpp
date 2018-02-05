@@ -18,8 +18,18 @@ void serialGetString(int fd, int size,char * buffer){
     }
 }
 
-int size = 20;
-char buffer[20];
+int size = 256;
+char buffer[256] = "Hello!!!";
+
+void serialPutsString(int fd, char * buffer) {
+	serialPuts(fd,buffer);
+}
+
+void serialPutCharString(int fd, int size, char * buffer) {
+	for (int i =0; i<size; i++) {
+		serialPutchar(buffer[i]);
+	}
+}
 
 int  main(void)
 {
@@ -28,12 +38,18 @@ int  main(void)
         printf("error\n");
     }
     //char buffer[6];
+	/*
     while(1){
         char temp;
         //temp = serialGetchar(fd);
         serialGetString(fd,size,buffer);
         //printf("%c\n",temp);
         printf("%s\n",buffer);
+    }
+	*/
+	while(1){
+        serialPuts(fd,buffer);
+		sleep(1);
     }
     serialClose (fd) ;
     return 0;
