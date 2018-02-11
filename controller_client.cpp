@@ -102,8 +102,8 @@ int main(int argc, char *argv[]) {
 		}
 		printf("%s\n",buffer);
 
-		mleep(10);
-
+		//sleep(10);
+		usleep(1000);
     }
 	serialClose (fd) ;
     close(sockfd);
