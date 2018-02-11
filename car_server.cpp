@@ -123,7 +123,9 @@ int main(int argc, char *argv[]) {
 			serialPuts(fd,buffer);
 			n = write(newsockfd,"I got your message",18);
 			if (n < 0) error("ERROR writing to socket");
-			sleep(1);
+			
+			//sleep(1);
+			usleep(1000);
 		}
 	close(newsockfd);
 	close(sockfd);
