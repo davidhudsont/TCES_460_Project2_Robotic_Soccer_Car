@@ -19,7 +19,6 @@ void decode() {
   }
 }
 
-
 void setup() {
   pinMode(l_motor,OUTPUT);
   pinMode(r_motor,OUTPUT);
@@ -31,10 +30,10 @@ void loop() {
   Serial.println(buffer);
   decode();
   String s = String("L : "+String(joy[0])+", R: "+String(joy[1]));
+  
+  Serial.println(s);
   analogWrite(l_motor,joy[0]);
   analogWrite(r_motor,joy[1]);
-  Serial.println(s);
-  
-  delay(1000);
+  delay(100);
 
 }
