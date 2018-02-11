@@ -4,7 +4,7 @@ String msg = "";
 int motorOutputL;
 int motorOutputR;
 //encoding function 
-float joy[2];
+int joy[2];
 void encode(int a1, int a2) {
     msg = "";
     joy[0] = a1;
