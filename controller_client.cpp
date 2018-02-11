@@ -102,7 +102,7 @@ int main(int argc, char *argv[]) {
 		}
 		printf("%s\n",buffer);
 
-		sleep(1);
+		mleep(10);
 
     }
 	serialClose (fd) ;
