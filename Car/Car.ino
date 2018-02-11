@@ -34,6 +34,6 @@ void loop() {
   Serial.println(s);
   analogWrite(l_motor,joy[0]);
   analogWrite(r_motor,joy[1]);
-  delay(100);
+  delay(10);
 
 }
