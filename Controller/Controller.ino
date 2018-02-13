@@ -35,7 +35,10 @@ void loop() {
   int Left_Right = analogRead(A2);
 
   //Inputed so we can have a consistent stop and go.
-  //values from stick vary -+2 
+  //values from stick vary -+2
+  //No Tape: 515,530
+  //blue/red Tape: 500,515
+  //
   if(Forward_Backwards > 1021){
     Forward_Backwards = 1021;
   }else if((Forward_Backwards>=515)&&(Forward_Backwards<=530)){
