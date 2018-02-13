@@ -87,13 +87,13 @@ void loop() {
         encode(motorOutputL,motorOutputR);
         //Serial.println("forward");
      }else if((Forward_Backwards > 520) && (Left_Right ==520)){//backwards
-        motorOutputL = 150;
+        motorOutputL = 0;
         motorOutputR = 255;
         encode(motorOutputL,motorOutputR);
         //Serial.println("right");
      }else if((Forward_Backwards == 0) && (Left_Right == 520)){//left
         motorOutputL = 255;
-        motorOutputR = 150;
+        motorOutputR = 0;
         encode(motorOutputL,motorOutputR);
         //Serial.println("left");
      }else if((Forward_Backwards == 520) && (Left_Right > 520)){//right
