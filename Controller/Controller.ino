@@ -5,6 +5,7 @@ int motorOutputR;
 //encoding function 
 float joy[2];
 void encode(int a1, int a2) {
+    msg = "";
     joy[0] = a1;
     joy[1] = a2;
   for (int i =0; i<2; i++) {
@@ -60,54 +61,54 @@ void loop() {
         motorOutputL = 0;  //set to 0,0 since there is no motor controller. Will change with motor controller
         motorOutputR = 0;
         encode(motorOutputL,motorOutputR);
-        Serial.println("downright");
+        //Serial.println("downright");
      }//joystick upright
      else if((Forward_Backwards < 520) && (Left_Right < 520)){
         motorOutputL = 255; //using mapping later with motor controller
         motorOutputR = 200;
         encode(motorOutputL,motorOutputR);
-        Serial.println("upleft");
+        //Serial.println("upleft");
      }//joystick downright
      else if((Forward_Backwards > 520) && (Left_Right < 520)){
         motorOutputL = 255;
         motorOutputR = 200;
         encode(motorOutputL,motorOutputR);
-        Serial.println("upright");
+        //Serial.println("upright");
      }//joystick upleft
      else if((Forward_Backwards < 520) && (Left_Right > 520)){
         motorOutputL = 0;
         motorOutputR = 0;
         encode(motorOutputL,motorOutputR);
-        Serial.println("downleft");
+        //Serial.println("downleft");
      }
   }else if((Forward_Backwards == 520) && (Left_Right == 0)){//forward
         motorOutputL = 255;
         motorOutputR = 255;
         encode(motorOutputL,motorOutputR);
-        Serial.println("forward");
+        //Serial.println("forward");
      }else if((Forward_Backwards > 520) && (Left_Right ==520)){//backwards
         motorOutputL = 150;
         motorOutputR = 255;
         encode(motorOutputL,motorOutputR);
-        Serial.println("right");
+        //Serial.println("right");
      }else if((Forward_Backwards == 0) && (Left_Right == 520)){//left
         motorOutputL = 255;
         motorOutputR = 150;
         encode(motorOutputL,motorOutputR);
-        Serial.println("left");
+        //Serial.println("left");
      }else if((Forward_Backwards == 520) && (Left_Right > 520)){//right
         motorOutputL = 0;
         motorOutputR = 0;
         encode(motorOutputL,motorOutputR);
-        Serial.println("backwards");
+        //Serial.println("backwards");
      }else{
       motorOutputL = 0;
       motorOutputR = 0;
       encode(motorOutputL,motorOutputR);
-      Serial.println("stop");
+      //Serial.println("stop");
   }
   //maps a1 to analog ouput for pin 4
- 
+  Serial.print(msg);
   delay(10);
 }
 
