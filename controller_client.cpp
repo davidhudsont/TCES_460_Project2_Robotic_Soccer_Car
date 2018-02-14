@@ -103,7 +103,7 @@ int main(int argc, char *argv[]) {
 		printf("%s\n",buffer);
 
 		//sleep(10);
-		usleep(1000);
+		usleep(10000);
     }
 	serialClose (fd) ;
     close(sockfd);
