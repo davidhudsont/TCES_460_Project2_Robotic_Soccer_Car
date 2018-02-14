@@ -125,7 +125,7 @@ int main(int argc, char *argv[]) {
 			if (n < 0) error("ERROR writing to socket");
 			
 			//sleep(1);
-			usleep(1000);
+			usleep(10000);
 		}
 	close(newsockfd);
 	close(sockfd);
