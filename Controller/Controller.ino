@@ -108,7 +108,7 @@ void loop() {
       //Serial.println("stop");
   }
   //maps a1 to analog ouput for pin 4
-  Serial.print(msg);
+  Serial.println(msg);
   delay(10);
 }
 
