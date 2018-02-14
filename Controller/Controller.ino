@@ -92,7 +92,7 @@ void loop() {
         encode(motorOutputL,motorOutputR);
         //Serial.println("right");
      }else if((Forward_Backwards == 0) && (Left_Right == 520)){//left
-        motorOutputL = 0
+        motorOutputL = 0;
         motorOutputR = 255;
         encode(motorOutputL,motorOutputR);
         //Serial.println("left");
