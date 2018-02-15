@@ -55,7 +55,7 @@ void loop() {
     Left_Right = Left_Right;
   }
   
-  if((Forward_Backwards != 520) && (Left_Right != 520)){
+  /*if((Forward_Backwards != 520) && (Left_Right != 520)){
     //joystick downleft
      if((Forward_Backwards > 520) && (Left_Right > 520)){
         motorOutputL = 0;  //set to 0,0 since there is no motor controller. Will change with motor controller
@@ -81,7 +81,7 @@ void loop() {
         encode(motorOutputL,motorOutputR);
         //Serial.println("downleft");
      }
-  }else if((Forward_Backwards == 520) && (Left_Right == 0)){//forward
+  }else*/ if((Forward_Backwards == 520) && (Left_Right == 0)){//forward
         motorOutputL = 255;
         motorOutputR = 255;
         encode(motorOutputL,motorOutputR);
