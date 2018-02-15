@@ -101,9 +101,6 @@ int main(int argc, char *argv[]) {
 			 error("ERROR reading from socket");
 		}
 		printf("%s\n",buffer);
-
-		//sleep(10);
-		usleep(10000);
     }
 	serialClose (fd) ;
     close(sockfd);
