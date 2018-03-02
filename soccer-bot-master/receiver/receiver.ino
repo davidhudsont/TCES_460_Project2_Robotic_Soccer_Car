@@ -4,58 +4,32 @@
 #include <ArduinoJson.h>
 
 // Motor
-#define Left_Motor 25
-#define Right_Motor 26
-#define forward 32
-#define reverse 33
-#define shoot 27
+uint8_t motorOutputL;
+uint8_t motorOutputR;
+const int forward = 4;
+const int reverse = 7;
+const int l_pwm = 3;
+const int r_pwm = 6;
 
-// JoyStick Ranges
-
-#define VERT_FORWARD_MAX 4000
-#define VERT_FORWARD_MIN  2900
-
-#define VERT_REVERSE_MAX  0
-#define VERT_REVERSE_MIN  2500
-
-#define HORI_LEFT_MAX  4000
-#define HORI_LEFT_MIN  2900
-
-#define HORI_RIGHT_MAX  0
-#define HORI_RIGHT_MIN  2400
+// Reset
+const int rst = 8;
 
 
 // connection pins
-const uint8_t PIN_SCK = 18;
-const uint8_t PIN_MOSI = 23;
-const uint8_t PIN_MISO = 19;
-const uint8_t PIN_SS = 2;
-const uint8_t PIN_RST = 15;
-const uint8_t PIN_IRQ = 17;
+const uint8_t PIN_RST = 9; // reset pin
+const uint8_t PIN_IRQ = 2; // irq pin
+const uint8_t PIN_SS = SS; // spi select pin
 
-int verti;
-int hori;
-int state;
-
-
-// DAC
-long left_dac;
-long right_dac;
 // DEBUG packet sent status and count
 volatile boolean received = false;
 volatile boolean error = false;
 volatile int16_t numReceived = 0; // todo check int type
 String message;
-int _val = 0;
+int threshold = 550;
 
 void setup() {
   // motor
   
-
-  pinMode(forward, OUTPUT);
-  pinMode(reverse, OUTPUT);
-  pinMode(shoot, OUTPUT);
-  digitalWrite(shoot,HIGH);
   // DEBUG monitoring
   Serial.begin(9600);
   Serial.println(F("### DW1000-arduino-receiver-test ###"));
@@ -79,6 +53,7 @@ void setup() {
   Serial.print("Unique ID: "); Serial.println(msg);
   DW1000.getPrintableNetworkIdAndShortAddress(msg);
   Serial.print("Network ID & Device Address: "); Serial.println(msg);
+  
   DW1000.getPrintableDeviceMode(msg);
   Serial.print("Device mode: "); Serial.println(msg);
   // attach callback for (successfully) received messages
@@ -118,49 +93,32 @@ void loop() {
       Serial.println("parseObject() failed");
       return;
     }
-    verti = root["x"];
-    hori = root["y"];
-    state = root["b"];
-    if (state == 0) {
-      digitalWrite(shoot,LOW);  
-    }
-    else if ( state == 1) {
-      digitalWrite(shoot,HIGH);
-    }
-    if (verti > 2900) {
+    int verti = root["x"];
+    int hori = root["y"];
+    
+    if (verti > 600) {
       foward();
-    } else if (hori > 2900) {
-      turnLeft();
-    } else if (hori < 2400) {
-     turnRight();
-    } else if (verti < 2500) {
+    } else if (verti < 400) {
       backward();
+    } else if (hori > 600) {
+      turnLeft();
+    } else if (hori < 400) {
+      turnRight();
     } else {
-     Stop();
+      Stop();
     }
-    Serial.print("VERT: ");
-    Serial.print(verti);
-    Serial.print(", HORI: ");
-    Serial.print(hori);
-    Serial.print(", STATE: "); 
-    Serial.print(state);
-    Serial.print(", LEFT_DAC: ");
-    Serial.print(left_dac);
-    Serial.print(", RIGHT_DAC: ");
-    Serial.print(right_dac);
-    Serial.println();
+
 
     
-    dacWrite(Left_Motor,left_dac);
-    dacWrite(Right_Motor,right_dac);
+    Serial.println(verti);
+    Serial.println(hori);
 
     
-    
-//    Serial.print("Received message ... #"); Serial.println(numReceived);
-//    Serial.print("Data is ... "); Serial.println(message);
-//    Serial.print("FP power is [dBm] ... "); Serial.println(DW1000.getFirstPathPower());
-//    Serial.print("RX power is [dBm] ... "); Serial.println(DW1000.getReceivePower());
-//    Serial.print("Signal quality is ... "); Serial.println(DW1000.getReceiveQuality());
+    Serial.print("Received message ... #"); Serial.println(numReceived);
+    Serial.print("Data is ... "); Serial.println(message);
+    Serial.print("FP power is [dBm] ... "); Serial.println(DW1000.getFirstPathPower());
+    Serial.print("RX power is [dBm] ... "); Serial.println(DW1000.getReceivePower());
+    Serial.print("Signal quality is ... "); Serial.println(DW1000.getReceiveQuality());
     received = false;
   }
   if (error) {
@@ -169,61 +127,28 @@ void loop() {
     DW1000.getData(message);
     Serial.print("Error data is ... "); Serial.println(message);
   }
-  delay(100);
-}
-
-long map_limit(int x,int x_low, int x_high, int y_low, int y_high) {
-    long dac_val = map(x,x_low,x_high,y_low,y_high);
-    if (dac_val > 255){
-      dac_val = 255;  
-    }
-    if (dac_val < 0) {
-      dac_val = 0;
-    }
-    return dac_val;
 }
 
 void foward() {
-    Serial.println("Forward: ");
-    left_dac = map_limit(verti,VERT_FORWARD_MIN,VERT_FORWARD_MAX,0,255);
-    right_dac = map_limit(verti,2000,4000,0,255);
-    digitalWrite(forward, HIGH);
-    digitalWrite(reverse,LOW);
+
     delay(10);
 }
 
 void backward() {
-    Serial.println("Backward");
-    left_dac = map_limit(verti,VERT_REVERSE_MIN,VERT_REVERSE_MAX,0,255);
-    right_dac = map_limit(verti,VERT_REVERSE_MIN,VERT_REVERSE_MAX,0,255);
-    digitalWrite(forward, LOW);
-    digitalWrite(reverse,HIGH);
     delay(10);
 }
 
 void turnLeft() {
-    Serial.println("Left");
-    left_dac = 0;
-    right_dac = map_limit(hori,HORI_LEFT_MIN,HORI_LEFT_MAX,0,255);
-    digitalWrite(forward, HIGH);
-    digitalWrite(reverse,LOW);
+  
     delay(10);
 }
 
 void turnRight() {
-    Serial.println("Right");
-    left_dac = map_limit(hori,HORI_RIGHT_MIN,HORI_RIGHT_MAX,0,255);
-    right_dac = 0;
-    digitalWrite(forward, HIGH);
-    digitalWrite(reverse,LOW);
+
     delay(10);
 }
 
 void Stop() {
-    Serial.println("Stop");
-    left_dac = 0;
-    right_dac = 0;
-    digitalWrite(forward, HIGH);
-    digitalWrite(reverse,LOW);
+  
     delay(10);
 }
