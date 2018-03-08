@@ -1,4 +1,3 @@
-
 #include <SPI.h>
 #include <DW1000.h>
 #include <ArduinoJson.h>
@@ -36,6 +35,7 @@ const uint8_t PIN_IRQ = 17;
 int verti;
 int hori;
 int state;
+int counter = 0;
 
 
 // DAC
@@ -67,7 +67,7 @@ void setup() {
   DW1000.newConfiguration();
   DW1000.setDefaults();
   DW1000.setDeviceAddress(6);
-  DW1000.setNetworkId(10);
+  DW1000.setNetworkId(29);
   DW1000.enableMode(DW1000.MODE_LONGDATA_RANGE_LOWPOWER);
   DW1000.commitConfiguration();
   Serial.println(F("Committed configuration ..."));
@@ -162,6 +162,15 @@ void loop() {
 //    Serial.print("RX power is [dBm] ... "); Serial.println(DW1000.getReceivePower());
 //    Serial.print("Signal quality is ... "); Serial.println(DW1000.getReceiveQuality());
     received = false;
+  }
+  else{
+    counter++;
+    //Serial.println("stall");
+    if(counter > 5){
+      //Serial.println("counter");
+      counter = 0;
+      ESP.restart();
+    }    
   }
   if (error) {
     Serial.println("Error receiving a message");
